@@ -17,6 +17,8 @@ import { UpdateBrandDto } from './dto/update-brand.dto';
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
+  // http://127.0.0.1:8000/api/v1/brands
+  // { "brand": "Maybach" }
   @Post()
   store(@Body() createBrandDto: CreateBrandDto) {
     try {
@@ -26,11 +28,14 @@ export class BrandsController {
     }
   }
 
+  // http://127.0.0.1:8000/api/v1/brands
   @Get()
   index() {
     return this.brandsService.read();
   }
 
+  // http://127.0.0.1:8000/api/v1/brands/23bd5bd1e25d35abacf1a8b2
+  // Toyota
   @Get(':id')
   show(@Param('id') id: string) {
     try {
@@ -40,6 +45,8 @@ export class BrandsController {
     }
   }
 
+  // http://127.0.0.1:8000/api/v1/brands/72bc61bba900d4c748efbcff
+  // { "brand": "Hyundia" }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBrandDto: UpdateBrandDto) {
     try {
@@ -49,6 +56,8 @@ export class BrandsController {
     }
   }
 
+  // http://127.0.0.1:8000/api/v1/brands/8fab533c9e868e10babd6edb
+  // Volkswagen
   @Delete(':id')
   destory(@Param('id') id: string) {
     try {

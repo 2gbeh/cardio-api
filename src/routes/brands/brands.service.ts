@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { IBrand, type TReadArgs, type TReadReturn } from './brands.interface';
+import { IBrand } from './brands.interface';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 //
-import { CommonService } from '../../services/common/common.service';
-import fakeBrands from '../../data/fake-brands';
+import { CommonService } from 'src/services/common/common.service';
+import fakeBrands from 'src/data/fake-brands';
 
 @Injectable()
 export class BrandsService {
@@ -12,18 +12,18 @@ export class BrandsService {
     commonService.setData<IBrand[]>(fakeBrands);
   }
 
-  create(createBrandDto: CreateBrandDto): IBrand {
-    return this.commonService.create<CreateBrandDto, IBrand>(createBrandDto);
+  create(body: CreateBrandDto): IBrand {
+    return this.commonService.create<CreateBrandDto, IBrand>(body);
   }
 
-  read(args?: TReadArgs): TReadReturn {
-    return this.commonService.read<TReadArgs, TReadReturn>(args);
+  read(queryParams?: string): IBrand | IBrand[] {
+    return this.commonService.read<string, IBrand | IBrand[]>(queryParams);
   }
 
-  update(id: string, updateBrandDto: UpdateBrandDto): IBrand {
+  update(id: string, body: UpdateBrandDto): IBrand {
     return this.commonService.update<string, UpdateBrandDto, IBrand>(
       id,
-      updateBrandDto,
+      body,
     );
   }
 

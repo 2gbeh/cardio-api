@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePlanDto } from './dto/create-plan.dto';
-import { UpdatePlanDto } from './dto/update-plan.dto';
+import { TCollection } from 'src/types/common.type';
+import { ReadPlanDto } from './dto/read-plan.dto';
+//
+import fakeBrands from 'src/data/fake-brands';
+import fakeModels from 'src/data/fake-models';
+import fakePlans from 'src/data/fake-plans';
 
 @Injectable()
 export class PlansService {
-  create(createPlanDto: CreatePlanDto) {
-    return 'This action adds a new plan';
-  }
-
-  findAll() {
-    return `This action returns all plans`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} plan`;
-  }
-
-  update(id: number, updatePlanDto: UpdatePlanDto) {
-    return `This action updates a #${id} plan`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} plan`;
+  // keep year
+  // check model_id
+  // get brand
+  // get plans
+  read(queryParams: ReadPlanDto): TCollection {
+    let model = fakeModels.find((e) => e.id == queryParams.model_id);
+    if (model) {
+      let brand = fakeBrands.find((e) => e.id == model?.brand_id);
+      if (brand) {
+        return { brand, model, plans: fakePlans };
+      }
+    }
+    throw new Error();
   }
 }

@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getUuid, getDatetime } from 'src/utils';
-
-type TDocument = Record<string, unknown>;
-type TCollection = TDocument[];
+import type { TDocument, TCollection } from 'src/types/common.type';
 
 @Injectable()
 export class CommonService {
@@ -24,24 +22,15 @@ export class CommonService {
     return obj as R;
   }
 
-  read<A, R>(args?: A): R {
-    if (args) {
-      if (typeof args === 'object') {
-        // models?brand_id=[:brand_id]
-        let arr = this.data.filter(
-          (e: TDocument) => e.brand_id == (args as TDocument)?.brand_id,
-        );
-        return arr as R;
-      } else {
-        // models/:model_id
-        let obj = this.data.find((e: TDocument) => e.id == args);
-        if (!obj) throw new Error('Not found');
-        return obj as R;
-      }
-    } else {
-      // models
-      return (this.data ?? []) as R;
+  read<A, R>(param?: A): R {
+    if (param) {
+      // resource/:resource_id
+      let obj = this.data.find((e: TDocument) => e.id == param);
+      if (!obj) throw new Error('Not found');
+      return obj as R;
     }
+    // resource
+    return (this.data ?? []) as R;
   }
 
   update<A1, A2, R>(id: A1, updateDto: A2): R {
