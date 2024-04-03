@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TCollection } from 'src/types/common.type';
+import { TDocument } from 'src/types/common.type';
 import { ReadPlanDto } from './dto/read-plan.dto';
 //
 import fakeBrands from 'src/data/fake-brands';
@@ -12,14 +12,15 @@ export class PlansService {
   // check model_id
   // get brand
   // get plans
-  read(queryParams: ReadPlanDto): TCollection {
+  read(queryParams: ReadPlanDto): TDocument {
     let model = fakeModels.find((e) => e.id == queryParams.model_id);
     if (model) {
       let brand = fakeBrands.find((e) => e.id == model?.brand_id);
       if (brand) {
-        return { brand, model, plans: fakePlans };
+        return { brand, model, plans: fakePlans, year: queryParams.year };
       }
+      throw new Error('Brand not found');
     }
-    throw new Error();
+    throw new Error('Model not found');
   }
 }

@@ -1,7 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Query, Delete, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Query,
+  Delete,
+  UnprocessableEntityException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PlansService } from './plans.service';
 import { ReadPlanDto } from './dto/read-plan.dto';
-// 
+//
 import { ControllerHelper } from 'src/helpers/controller.helper';
 
 @Controller('plans')
@@ -13,7 +24,11 @@ export class PlansController {
   @Get()
   index(@Query() readPlanDto: ReadPlanDto) {
     if (ControllerHelper.hasQuery<ReadPlanDto>(readPlanDto)) {
-      return this.plansService.read(readPlanDto);
+      try {
+        return this.plansService.read(readPlanDto);
+      } catch (err) {
+        throw new NotFoundException();
+      }
     }
     throw new UnprocessableEntityException();
   }
