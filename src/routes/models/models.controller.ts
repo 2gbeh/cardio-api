@@ -8,6 +8,7 @@ import {
   Delete,
   NotFoundException,
   Query,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { ModelsService } from './models.service';
 import { CreateModelDto } from './dto/create-model.dto';
@@ -19,7 +20,11 @@ export class ModelsController {
 
   @Post()
   store(@Body() createModelDto: CreateModelDto) {
-    return this.modelsService.create(createModelDto);
+    try {
+      return this.modelsService.create(createModelDto);
+    } catch (err) {
+      throw new UnprocessableEntityException();
+    }
   }
 
   @Get()
@@ -41,11 +46,19 @@ export class ModelsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateModelDto: UpdateModelDto) {
-    return this.modelsService.update(id, updateModelDto);
+    try {
+      return this.modelsService.update(id, updateModelDto);
+    } catch (err) {
+      throw new NotFoundException();
+    }
   }
 
   @Delete(':id')
   destory(@Param('id') id: string) {
-    return this.modelsService.delete(id);
+    try {
+      return this.modelsService.delete(id);
+    } catch (err) {
+      throw new NotFoundException();
+    }
   }
 }

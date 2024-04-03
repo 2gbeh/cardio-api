@@ -3,3 +3,7 @@ export interface IBrand  {
   brand: string;
   created_at: string;
 };
+
+export type TReadArgs = string
+
+export type TReadReturn = IBrand | IBrand[]

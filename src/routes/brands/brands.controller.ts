@@ -6,8 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe,
   NotFoundException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
@@ -19,7 +19,11 @@ export class BrandsController {
 
   @Post()
   store(@Body() createBrandDto: CreateBrandDto) {
-    return this.brandsService.create(createBrandDto);
+    try {
+      return this.brandsService.create(createBrandDto);
+    } catch (err) {
+      throw new UnprocessableEntityException();
+    }
   }
 
   @Get()
@@ -38,11 +42,19 @@ export class BrandsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBrandDto: UpdateBrandDto) {
-    return this.brandsService.update(id, updateBrandDto);
+    try {
+      return this.brandsService.update(id, updateBrandDto);
+    } catch (err) {
+      throw new NotFoundException();
+    }
   }
 
   @Delete(':id')
   destory(@Param('id') id: string) {
-    return this.brandsService.delete(id);
+    try {
+      return this.brandsService.delete(id);
+    } catch (err) {
+      throw new NotFoundException();
+    }
   }
 }
