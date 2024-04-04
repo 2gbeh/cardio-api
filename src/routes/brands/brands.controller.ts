@@ -8,6 +8,7 @@ import {
   Delete,
   NotFoundException,
   UnprocessableEntityException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
@@ -24,7 +25,7 @@ export class BrandsController {
     try {
       return this.brandsService.create(createBrandDto);
     } catch (err) {
-      throw new UnprocessableEntityException();
+      throw new UnprocessableEntityException(err?.message);
     }
   }
 
@@ -41,7 +42,7 @@ export class BrandsController {
     try {
       return this.brandsService.read(id);
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException(err?.message);
     }
   }
 
@@ -52,7 +53,7 @@ export class BrandsController {
     try {
       return this.brandsService.update(id, updateBrandDto);
     } catch (err) {
-      throw new NotFoundException();
+      throw new UnprocessableEntityException(err?.message);
     }
   }
 
@@ -63,7 +64,7 @@ export class BrandsController {
     try {
       return this.brandsService.delete(id);
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException(err?.message);
     }
   }
 }

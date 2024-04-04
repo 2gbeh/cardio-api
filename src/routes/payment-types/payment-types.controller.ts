@@ -5,6 +5,7 @@ import {
   Query,
   UnprocessableEntityException,
   Param,
+  MethodNotAllowedException,
 } from '@nestjs/common';
 import { PaymentTypesService } from './payment-types.service';
 import { ReadPaymentTypeDto } from './dto/read-payment-type.dto';
@@ -20,19 +21,23 @@ export class PaymentTypesController {
   @Get()
   index(@Query() readPaymentTypeDto: ReadPaymentTypeDto) {
     if (ControllerHelper.hasQuery<ReadPaymentTypeDto>(readPaymentTypeDto)) {
-      return this.paymentTypesService.read(readPaymentTypeDto);
+      try {
+        return this.paymentTypesService.read(readPaymentTypeDto);
+      } catch (err) {
+        throw new NotFoundException(err?.message);
+      }
     }
-    throw new UnprocessableEntityException();
+    throw new MethodNotAllowedException();
   }
 
   // http://127.0.0.1:8000/api/v1/payment-types/bdf61af88d5cd5399b4dfe8b
-  // Standard->Quarterly
+  // Quarterly, 105000
   @Get(':id')
   show(@Param('id') id: string) {
     try {
       return this.paymentTypesService.read(id);
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException(err?.message);
     }
   }
 }

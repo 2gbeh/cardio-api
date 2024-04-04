@@ -11,6 +11,6 @@ export class LocationsService {
   }
 
   read(id?: string): ILocation | ILocation[] {
-    return this.commonService.read<string, ILocation | ILocation[]>(id);
+    return this.commonService.select<string, ILocation | ILocation[]>(id);
   }
 }

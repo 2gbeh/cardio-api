@@ -5,6 +5,7 @@ import {
   Param,
   UnprocessableEntityException,
   NotFoundException,
+  MethodNotAllowedException,
 } from '@nestjs/common';
 import { PlansService } from './plans.service';
 import { ReadPlanDto } from './dto/read-plan.dto';
@@ -23,12 +24,12 @@ export class PlansController {
       try {
         return this.plansService.read(readPlanDto);
       } catch (err) {
-        throw new NotFoundException();
+        throw new NotFoundException(err?.message);
       }
     }
-    throw new UnprocessableEntityException();
+    throw new MethodNotAllowedException();
   }
-  
+
   // http://127.0.0.1:8000/api/v1/plans/dfdec041cc2f6cdcd923feeb
   // Standard
   @Get(':id')
@@ -36,8 +37,7 @@ export class PlansController {
     try {
       return this.plansService.read(id);
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException(err?.message);
     }
   }
 }
-

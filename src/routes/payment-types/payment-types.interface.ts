@@ -5,3 +5,8 @@ export interface IPaymentType {
   amount: number;
   created_at: string;
 }
+
+
+export enum EPaymentTypesServiceError {
+  PLAN_ID_NOT_FOUND = 'PaymentTypesServiceError: Plan ID Not Found',
+}

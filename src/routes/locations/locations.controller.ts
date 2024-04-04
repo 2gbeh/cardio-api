@@ -18,7 +18,7 @@ export class LocationsController {
     try {
       return this.locationsService.read(id);
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException(err?.message);
     }
   }
 }

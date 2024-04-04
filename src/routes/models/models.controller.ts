@@ -9,15 +9,16 @@ import {
   NotFoundException,
   Query,
   UnprocessableEntityException,
-} from '@nestjs/common';
-import { ModelsService } from './models.service';
-import { CreateModelDto } from './dto/create-model.dto';
-import { ReadModelDto } from './dto/read-model.dto';
-import { UpdateModelDto } from './dto/update-model.dto';
-// 
-import { ControllerHelper } from 'src/helpers/controller.helper';
+  InternalServerErrorException,
+} from "@nestjs/common";
+import { ModelsService } from "./models.service";
+import { CreateModelDto } from "./dto/create-model.dto";
+import { ReadModelDto } from "./dto/read-model.dto";
+import { UpdateModelDto } from "./dto/update-model.dto";
+//
+import { ControllerHelper } from "src/helpers/controller.helper";
 
-@Controller('models')
+@Controller("models")
 export class ModelsController {
   constructor(private readonly modelsService: ModelsService) {}
 
@@ -28,7 +29,7 @@ export class ModelsController {
     try {
       return this.modelsService.create(createModelDto);
     } catch (err) {
-      throw new UnprocessableEntityException();
+      throw new UnprocessableEntityException(err?.message);
     }
   }
 
@@ -45,34 +46,34 @@ export class ModelsController {
 
   // http://127.0.0.1:8000/api/v1/models/2e2bdaa830f79f3fec7fc22a
   // Camry
-  @Get(':id')
-  show(@Param('id') id: string) {
+  @Get(":id")
+  show(@Param("id") id: string) {
     try {
       return this.modelsService.read(id);
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException(err?.message);
     }
   }
 
   // http://127.0.0.1:8000/api/v1/models/94b325cd20bdc9c2def6f7d5
   // { "model": "Crosstour" }
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateModelDto: UpdateModelDto) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateModelDto: UpdateModelDto) {
     try {
       return this.modelsService.update(id, updateModelDto);
     } catch (err) {
-      throw new NotFoundException();
+      throw new UnprocessableEntityException(err?.message);
     }
   }
 
   // http://127.0.0.1:8000/api/v1/models/cc0aec0a1bbcd3c1e43a7a1c
   // Golf Models
-  @Delete(':id')
-  destory(@Param('id') id: string) {
+  @Delete(":id")
+  destory(@Param("id") id: string) {
     try {
       return this.modelsService.delete(id);
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException(err?.message);
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TDocument } from 'src/types/common.type';
-import { IPlan } from './plans.interface';
+import { IPlan, EPlansServiceError as E } from './plans.interface';
 import { ReadPlanDto } from './dto/read-plan.dto';
 //
 import { CommonService } from 'src/services/common/common.service';
@@ -26,17 +26,17 @@ export class PlansService {
         let brand = fakeBrands.find((e) => e.id == model?.brand_id);
         if (brand) {
           return {
+            year: queryParams.year,
             brand,
             model,
             plans: fakePlans,
-            year: queryParams.year,
           } as TDocument;
         }
-        throw new Error('Brand not found');
+        throw new Error(E.BRAND_ID_NOT_FOUND);
       }
-      throw new Error('Model not found');
+      throw new Error(E.MODEL_ID_NOT_FOUND);
     } else {
-      return this.commonService.read<string, IPlan>(queryParams);
+      return this.commonService.select<string, IPlan>(queryParams);
     }
   }
 }
