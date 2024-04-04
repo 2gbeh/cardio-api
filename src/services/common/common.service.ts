@@ -33,6 +33,13 @@ export class CommonService {
     return (this.data ?? []) as R;
   }
 
+  query<A, R>(query: A): R {
+    // resource?q1=:v1&q2=v2
+    let key = Object.keys(query as object).pop() as string;
+    let arr = this.data.filter((e: TDocument) => e[key] == (query as TDocument)[key]);
+    return arr as R;
+  }
+
   update<A1, A2, R>(id: A1, updateDto: A2): R {
     this.data = this.data.map((e: TDocument) => {
       if (e.id == id) {

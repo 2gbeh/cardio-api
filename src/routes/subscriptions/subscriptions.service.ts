@@ -1,26 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { ISubscription } from './subscriptions.interface';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
-import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
+//
+import { CommonService } from 'src/services/common/common.service';
+import fakeSubscriptions from 'src/data/fake-subscriptions';
 
 @Injectable()
 export class SubscriptionsService {
-  create(createSubscriptionDto: CreateSubscriptionDto) {
-    return 'This action adds a new subscription';
+  constructor(private readonly commonService: CommonService) {
+    commonService.setData<ISubscription[]>(fakeSubscriptions);
   }
 
-  findAll() {
-    return `This action returns all subscriptions`;
+  create(body: CreateSubscriptionDto): ISubscription {
+    return this.commonService.create<CreateSubscriptionDto, ISubscription>(
+      body,
+    );
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subscription`;
-  }
-
-  update(id: number, updateSubscriptionDto: UpdateSubscriptionDto) {
-    return `This action updates a #${id} subscription`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} subscription`;
+  read(): ISubscription[] {
+    return this.commonService.read<undefined, ISubscription[]>();
   }
 }

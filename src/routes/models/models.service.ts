@@ -18,13 +18,10 @@ export class ModelsService {
   }
 
   read(queryParams?: string | ReadModelDto): IModel | IModel[] {
-    // models?brand_id=[:brand_id]
-    if (typeof queryParams === 'object') {
-      return fakeModels.filter((e) => e.brand_id == queryParams.brand_id);
-    }
-    return this.commonService.read<string | ReadModelDto, IModel | IModel[]>(
-      queryParams,
-    );
+    // models?brand_id=[:id]
+    return typeof queryParams === 'object'
+      ? this.commonService.query<ReadModelDto, IModel[]>(queryParams)
+      : this.commonService.read<string, IModel | IModel[]>(queryParams);
   }
 
   update(id: string, body: UpdateModelDto): IModel {

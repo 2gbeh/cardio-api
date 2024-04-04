@@ -1,12 +1,8 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
-  Param,
   Query,
-  Delete,
+  Param,
   UnprocessableEntityException,
   NotFoundException,
 } from '@nestjs/common';
@@ -32,4 +28,16 @@ export class PlansController {
     }
     throw new UnprocessableEntityException();
   }
+  
+  // http://127.0.0.1:8000/api/v1/plans/dfdec041cc2f6cdcd923feeb
+  // Standard
+  @Get(':id')
+  show(@Param('id') id: string) {
+    try {
+      return this.plansService.read(id);
+    } catch (err) {
+      throw new NotFoundException();
+    }
+  }
 }
+

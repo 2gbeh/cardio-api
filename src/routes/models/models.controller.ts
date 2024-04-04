@@ -14,11 +14,13 @@ import { ModelsService } from './models.service';
 import { CreateModelDto } from './dto/create-model.dto';
 import { ReadModelDto } from './dto/read-model.dto';
 import { UpdateModelDto } from './dto/update-model.dto';
+// 
+import { ControllerHelper } from 'src/helpers/controller.helper';
 
 @Controller('models')
 export class ModelsController {
   constructor(private readonly modelsService: ModelsService) {}
-  
+
   // http://127.0.0.1:8000/api/v1/models
   // { "brand_id": "9004dd93ae8fda17c9a6dbfd", "model": "Civic Models" }
   @Post()
@@ -29,18 +31,18 @@ export class ModelsController {
       throw new UnprocessableEntityException();
     }
   }
-  
+
   // http://127.0.0.1:8000/api/v1/models
   // http://127.0.0.1:8000/api/v1/models?brand_id=c4f86eddee8a0d4a54de4c82
   // Mercedes
   @Get()
   index(@Query() readModelDto?: ReadModelDto) {
-    if (readModelDto) {
+    if (ControllerHelper.hasQuery<ReadModelDto>(readModelDto)) {
       return this.modelsService.read(readModelDto);
     }
     return this.modelsService.read();
   }
-  
+
   // http://127.0.0.1:8000/api/v1/models/2e2bdaa830f79f3fec7fc22a
   // Camry
   @Get(':id')
@@ -51,7 +53,7 @@ export class ModelsController {
       throw new NotFoundException();
     }
   }
-  
+
   // http://127.0.0.1:8000/api/v1/models/94b325cd20bdc9c2def6f7d5
   // { "model": "Crosstour" }
   @Patch(':id')
@@ -61,8 +63,8 @@ export class ModelsController {
     } catch (err) {
       throw new NotFoundException();
     }
-  } 
-  
+  }
+
   // http://127.0.0.1:8000/api/v1/models/cc0aec0a1bbcd3c1e43a7a1c
   // Golf Models
   @Delete(':id')
