@@ -19,6 +19,12 @@ $ npm install
 $ npm run start:dev
 ```
 
+###### (if nest required)
+
+```
+$ npm i -g @nestjs/cli
+```
+
 ## Usage
 
 > Local:   http://localhost:8000/api/v1/docs
