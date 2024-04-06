@@ -1,6 +1,6 @@
 {
   "name": "cardio-api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Quality Car Repairs & Services",
   "keywords": [
@@ -47,12 +47,14 @@
     "@nestjs/core": "^10.3.7",
     "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.3.1",
     "@types/uuid": "^9.0.8",
     "dotenv": "^16.4.5",
     "dotenv-expand": "^11.0.6",
     "joi": "^17.12.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "typeorm": "^0.3.20",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
